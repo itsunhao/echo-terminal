@@ -1,0 +1,201 @@
+:root {
+    --bg: #04120a;
+    --bg-bar: #071d10;
+    --fg: #93e6a8;
+    --fg-dim: #4a8c5f;
+    --accent: #49f08a;
+    --border: #1c4a2c;
+    --glow: 0 0 6px rgba(73, 240, 138, 0.55);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    background: #010503;
+    font-family: "JetBrains Mono", "Fira Code", "Menlo", "Consolas",
+        "Noto Sans Mono CJK SC", "Sarasa Mono SC", monospace;
+    color: var(--fg);
+}
+
+.crt {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh; /* 移动端地址栏收放时更准确，避免底部被浏览器 UI 遮挡 */
+    padding: 18px;
+    gap: 10px;
+    background: radial-gradient(ellipse at center, #0a2416 0%, #010503 78%);
+}
+
+/* 顶部信息栏 */
+.bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: linear-gradient(180deg, #0a2a17 0%, var(--bg-bar) 100%);
+    box-shadow: inset 0 0 18px rgba(73, 240, 138, 0.08);
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.bar__left,
+.bar__right {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.bar__dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: var(--glow);
+    animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+}
+
+.bar__title {
+    font-weight: 700;
+    color: var(--accent);
+    text-shadow: var(--glow);
+}
+
+.bar__sep {
+    color: var(--fg-dim);
+}
+
+.bar__station,
+.bar__coord,
+.bar__mode {
+    color: var(--fg);
+    text-shadow: 0 0 4px rgba(147, 230, 168, 0.35);
+}
+
+.bar__back {
+    color: var(--accent);
+    text-decoration: none;
+    text-shadow: var(--glow);
+}
+
+.bar__back:hover {
+    text-decoration: underline;
+}
+
+/* 终端主体。
+ * 注意：xterm.js 自带的容器 div 固定带有 .terminal class，
+ * 因此这里用 #terminal（id）限定，让 padding/border/overflow 只作用于
+ * 主窗口元素，避免误伤 xterm 内部元素导致列/行数算多、文字被裁切。
+ * display:flex + 子项 flex:1：用 flex 撑满内容区，不依赖百分比高度，
+ * 兼容所有浏览器（部分引擎对 flex 子元素的 height:100% 解析不稳定）。 */
+#terminal {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    /* 留出四周内边距：修复后文字会在内容区内自动换行，
+       左右两侧都能看到完整的留白，不再贴边或被裁切。 */
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6),
+        inset 0 0 18px rgba(73, 240, 138, 0.06);
+    overflow: hidden;
+}
+
+/* 度量容器：无 padding/border，作为 flex 子项撑满 #terminal 的内容区 */
+.terminal__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+
+.terminal__inner .xterm {
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+}
+
+/* 水平方向不允许出现滚动条：文字到行尾自动换行 */
+#terminal .xterm-viewport {
+    overflow-x: hidden;
+}
+
+/* 底部状态行 */
+.statusline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-bar);
+    font-size: 12px;
+    color: var(--fg-dim);
+    letter-spacing: 0.4px;
+}
+
+#status-text {
+    color: var(--fg);
+    text-shadow: 0 0 4px rgba(147, 230, 168, 0.3);
+}
+
+/* CRT 玻璃与扫描线覆盖层 */
+.crt__overlay {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(0, 0, 0, 0.16) 0px,
+            rgba(0, 0, 0, 0.16) 1px,
+            transparent 1px,
+            transparent 3px
+        );
+    mix-blend-mode: multiply;
+}
+
+.crt__overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        ellipse at center,
+        transparent 0%,
+        rgba(0, 0, 0, 0.32) 92%
+    );
+}
+
+/* 响应式 */
+@media (max-width: 720px) {
+    .crt {
+        padding: 10px;
+    }
+    .bar,
+    .statusline {
+        font-size: 11px;
+    }
+    .bar__right,
+    .statusline__hint {
+        display: none;
+    }
+}

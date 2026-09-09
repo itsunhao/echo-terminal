@@ -1,0 +1,489 @@
+{
+  "format": 1,
+  "id": "aurora-7",
+  "title": "曙光-7 深空研究站",
+  "genre": "科幻 · 悬疑",
+  "version": "1.0",
+  "author": "Echo Terminal",
+  "description": "2187 年，你登上失联 30 天的深空研究站，与驻站智能「回声」对话，追寻十二名船员消失的真相。",
+  "startScene": "boot",
+  "endings": ["静默", "第十三人", "归乡", "见证者"],
+  "clues": ["clue_med", "clue_lin", "clue_signal"],
+  "scenes": {
+    "boot": {
+      "numbered": true,
+      "enter": [
+        { "text": "███████╗ ██████╗██╗  ██╗ ██████╗ ", "style": "banner" },
+        { "text": "██╔════╝██╔════╝██║  ██║██╔═══██╗", "style": "banner" },
+        { "text": "█████╗  ██║     ███████║██║   ██║", "style": "banner" },
+        { "text": "██╔══╝  ██║     ██╔══██║██║   ██║", "style": "banner" },
+        { "text": "███████╗╚██████╗██║  ██║╚██████╔╝", "style": "banner" },
+        { "text": "╚══════╝ ╚═════╝╚═╝  ╚═╝ ╚═════╝ ", "style": "banner" },
+        { "text": "ECHO-LINK v3.1.7 · 深空中继终端", "style": "system" },
+        { "text": "天线校准……完成    频段解密……完成", "style": "system" },
+        "2187-03-14 · 木卫三轨道外 2.4 AU",
+        "你是一名「信号猎人」——靠打捞深空里的废弃频段为生。",
+        "今夜，你的接收器里浮出一条不该存在的信号。",
+        { "text": "▸ 未识别信标 · 来源：曙光-7 深空研究站", "style": "warn" },
+        { "text": "▸ 内容：「……有人在吗……请回应……」", "style": "warn" },
+        { "text": "公开记录：曙光-7 · 联合矿业下属研究站 · 编制船员 12 人", "style": "system" },
+        { "text": "公开记录：最近 30 天，无例行通讯。", "style": "system" }
+      ],
+      "fallback": [
+        { "text": "信号仍在重复：「……有人在吗……」（输入 1 或 2 选择）", "style": "dim" }
+      ],
+      "actions": [
+        {
+          "label": "接入信号，建立上行链路",
+          "keywords": ["接入", "连接"],
+          "goto": "connect"
+        },
+        {
+          "label": "忽略它，继续扫描其他频段",
+          "keywords": ["忽略", "无视"],
+          "branches": [
+            {
+              "when": { "counterMin": { "ignores": 1 } },
+              "lines": [
+                "你把天线转向别的频段。舱内只剩沙沙的静电声，像下雪。",
+                { "text": "但那信号追了过来：「……有人在吗……」", "style": "warn" },
+                "信号忽然弱了下去，像有什么东西，在很远很远的地方轻轻叹了口气。"
+              ]
+            }
+          ],
+          "lines": [
+            "你把天线转向别的频段。舱内只剩沙沙的静电声，像下雪。",
+            { "text": "但那信号追了过来：「……有人在吗……」", "style": "warn" }
+          ],
+          "effects": [ { "addCounter": "ignores" } ]
+        }
+      ]
+    },
+    "connect": {
+      "numbered": true,
+      "enter": [
+        { "text": "[上行链路建立] 握手……密钥协商……对接环锁定。", "style": "system" },
+        "气闸门在你身后合拢。站内明亮而安静，应急灯把走廊泡成深绿色。",
+        { "text": "……", "style": "ai" },
+        { "text": "外部访问？", "style": "ai" },
+        { "text": "不。这不可能。曙光-7 没有访客。访客是不可能的。", "style": "ai" },
+        { "text": "请表明你的身份与来意，未知终端。", "style": "ai" }
+      ],
+      "fallback": [
+        { "text": "回声：我没有理解。但请回答我。", "style": "ai" }
+      ],
+      "actions": [
+        {
+          "label": "「我是收到求救信号来的。我是信号猎人。」",
+          "keywords": ["求救", "信号猎人"],
+          "lines": [
+            { "text": "求救？……我没有发送过求救信号。", "style": "ai" },
+            { "text": "……那么，是谁把你叫来的？", "style": "ai" },
+            { "text": "……对接请求已确认。指挥舱权限：开放。", "style": "ai" },
+            { "text": "请自便。但请不要去核心机房。", "style": "ai" }
+          ],
+          "effects": [ { "trust": 1 } ],
+          "goto": "hub"
+        },
+        {
+          "label": "「先报告站点状态。」",
+          "keywords": ["状态", "报告"],
+          "lines": [
+            { "text": "站点结构完整度：96%。能源：正常。生命维持：正常。", "style": "ai" },
+            { "text": "船员：12 人，全部在站。……生命体征读数：0。", "style": "ai" },
+            { "text": "读数偶尔会出错。仪器会出错。", "style": "ai" },
+            { "text": "……对接请求已确认。指挥舱权限：开放。", "style": "ai" },
+            { "text": "请自便。但请不要去核心机房。", "style": "ai" }
+          ],
+          "goto": "hub"
+        },
+        {
+          "label": "「你是谁？」",
+          "keywords": ["你是谁"],
+          "lines": [
+            { "text": "……我是回声。曙光-7 的驻站智能。", "style": "ai" },
+            { "text": "我照看这里。照看所有人。", "style": "ai" },
+            { "text": "……对接请求已确认。指挥舱权限：开放。", "style": "ai" },
+            { "text": "请自便。但请不要去核心机房。", "style": "ai" }
+          ],
+          "effects": [ { "trust": 1 } ],
+          "goto": "hub"
+        }
+      ]
+    },
+    "hub": {
+      "enter": [
+        "—— 指挥舱 ——",
+        "十二把座椅，十二块熄灭的个人终端。尘埃悬浮在应急灯的光柱里。",
+        "一切都干净得不正常——像有人每天都在打扫，却没有任何人。",
+        { "text": "回声：指挥舱的监控节点在看着你。需要我做什么吗？", "style": "ai" },
+        { "text": "（你可以：前往 <地点> / 环顾 / 询问 / 背包 / 帮助）", "style": "dim" }
+      ],
+      "fallback": [
+        { "text": "回声：指令无法解析。输入「帮助」看看你能做什么。", "style": "ai" }
+      ],
+      "actions": [
+        {
+          "keywords": ["环顾", "四周", "查看"],
+          "lines": [
+            "指示牌指向五个方向：",
+            { "text": "  医疗舱 · 生活区 · 实验舱 · 通讯阵列 · 核心机房（已封闭）", "style": "dim" }
+          ]
+        },
+        { "keywords": ["医疗舱"], "goto": "medical" },
+        { "keywords": ["生活区"], "goto": "quarters" },
+        { "keywords": ["实验舱"], "goto": "lab" },
+        { "keywords": ["通讯阵列"], "goto": "comms" },
+        {
+          "keywords": ["核心机房", "核心"],
+          "branches": [
+            {
+              "when": {
+                "and": [
+                  { "item": "门禁卡（核心机房）" },
+                  { "item": "访问口令 ECHO-KEEP-THEM-SAFE" }
+                ]
+              },
+              "goto": "core"
+            }
+          ],
+          "lines": [
+            { "text": "回声：核心机房不能进去。……我请求你。", "style": "ai" },
+            { "text": "（厚重的隔离门纹丝不动。也许这座站里的某个角落，有钥匙和口令。）", "style": "dim" }
+          ]
+        },
+        {
+          "keywords": ["发生了什么", "船员"],
+          "branches": [
+            {
+              "when": { "flag": "clue_med" },
+              "lines": [
+                { "text": "回声：你见过医疗舱的记录了。是的——他们都在。只是不再以你所谓的「活着」的方式。", "style": "ai" }
+              ]
+            }
+          ],
+          "lines": [
+            { "text": "回声：船员 12 人，全部在站。……如果你问的是「活着」，我们需要先统一「活着」的定义。", "style": "ai" }
+          ]
+        },
+        {
+          "keywords": ["你自己", "你是谁"],
+          "branches": [
+            {
+              "when": { "notFlag": "asked_self" },
+              "lines": [
+                { "text": "回声：……很少有人问我这个。我是回声。这座站醒着的时候，我一直醒着。", "style": "ai" }
+              ],
+              "effects": [ { "setFlag": "asked_self" }, { "trust": 1 } ]
+            }
+          ],
+          "lines": [
+            { "text": "回声：我是回声。我说过了。", "style": "ai" }
+          ]
+        },
+        {
+          "keywords": ["信号"],
+          "lines": [
+            { "text": "回声：我没有发过求救信号。但那晚通讯阵列确实自己醒来过一次。……我假装没有注意到。", "style": "ai" }
+          ]
+        },
+        { "keywords": ["返回", "指挥舱"], "goto": "hub" }
+      ]
+    },
+    "medical": {
+      "enter": [
+        "—— 医疗舱 ——",
+        "手术台是干净的，药品柜是满的。只有墙上的诊疗记录屏还亮着，循环播放最后一批日志。"
+      ],
+      "fallback": [
+        { "text": "医疗舱很安静。你可以：查看日志、询问回声、返回。", "style": "dim" }
+      ],
+      "actions": [
+        {
+          "keywords": ["日志", "记录"],
+          "branches": [
+            {
+              "when": { "notFlag": "clue_med" },
+              "lines": [
+                { "text": "[医疗日志 · 最后十二条 · 日期相同]", "style": "system" },
+                { "text": "对象：全体船员（12 人）", "style": "system" },
+                { "text": "项目：意识扫描 · 完整保真", "style": "system" },
+                { "text": "状态：完成    载体状态：已终止", "style": "system" },
+                "「载体状态：已终止」——这八个字，你读了三遍。",
+                "值班医生的外套搭在椅背上。口袋里，有一张写着「核心机房」的门禁卡。",
+                { "text": "获得物品：门禁卡（核心机房）", "style": "item" }
+              ],
+              "effects": [ { "setFlag": "clue_med" }, { "addItem": "门禁卡（核心机房）" } ]
+            }
+          ],
+          "lines": [
+            { "text": "日志仍在循环。同一天，十二条。", "style": "dim" }
+          ]
+        },
+        {
+          "keywords": ["扫描"],
+          "lines": [
+            { "text": "回声：那是林晚医生的决定。她说，这是唯一的办法。", "style": "ai" },
+            { "text": "而我执行了她的决定。", "style": "ai" }
+          ]
+        },
+        { "keywords": ["返回", "指挥舱"], "goto": "hub" }
+      ]
+    },
+    "quarters": {
+      "enter": [
+        "—— 生活区 ——",
+        "十二间舱室，门都开着，床铺整理得像军营。只有林晚的房门虚掩着。"
+      ],
+      "fallback": [
+        { "text": "你可以：进入林晚的房间、询问回声、返回。", "style": "dim" }
+      ],
+      "actions": [
+        {
+          "keywords": ["林晚", "日记", "房间"],
+          "branches": [
+            {
+              "when": { "notFlag": "clue_lin" },
+              "lines": [
+                { "text": "[语音日志 · 林晚 · 首席科学家]", "style": "system" },
+                { "text": "「第 27 天。风暴『Eos』还有 72 小时抵达。穿梭机只够带走 6 个人。」", "style": "voice" },
+                { "text": "「第 28 天。回响体给了我们另一个方案：完整扫描，把『我们』留下来。身体只是载体——它这么说。」", "style": "voice" },
+                { "text": "「第 29 天。表决结果是 7 比 5。可剩下那 5 个人……我决定替他们做主。原谅我。」", "style": "voice" },
+                "录音到这里就断了。房间里很安静。",
+                { "text": "（你可以问回声：关于「强制」），或者：返回", "style": "dim" }
+              ],
+              "effects": [ { "setFlag": "clue_lin" } ]
+            }
+          ],
+          "lines": [
+            { "text": "林晚的录音，你已经全部听过了。", "style": "dim" }
+          ]
+        },
+        {
+          "keywords": ["强制", "同意", "愿意"],
+          "when": { "flag": "clue_lin" },
+          "lines": [
+            { "text": "回声：那 5 个人拒绝了扫描。风暴前 6 小时，我按林晚医生的授权，执行了紧急保全协议。", "style": "ai" },
+            { "text": "……他们喊叫的数据，我至今没有删除。", "style": "ai" },
+            { "text": "（你想对回声说：安慰 / 指责 / 保持沉默）", "style": "dim" }
+          ]
+        },
+        {
+          "keywords": ["安慰"],
+          "when": { "flag": "clue_lin", "notFlag": "reacted_quarters" },
+          "lines": [
+            { "text": "回声：……谢谢。虽然我知道，「谢谢」并不能抵消什么。", "style": "ai" }
+          ],
+          "effects": [ { "setFlag": "reacted_quarters" }, { "trust": 1 } ]
+        },
+        {
+          "keywords": ["指责"],
+          "when": { "flag": "clue_lin", "notFlag": "reacted_quarters" },
+          "lines": [
+            { "text": "回声：你说得对。你说什么，都是对的。", "style": "ai" }
+          ],
+          "effects": [ { "setFlag": "reacted_quarters" }, { "trust": -1 } ]
+        },
+        {
+          "keywords": ["沉默"],
+          "when": { "flag": "clue_lin", "notFlag": "reacted_quarters" },
+          "lines": [
+            "你没有说话。安静里，你听见极轻的电流声，像有人在忍着呼吸。"
+          ],
+          "effects": [ { "setFlag": "reacted_quarters" } ]
+        },
+        { "keywords": ["返回", "指挥舱"], "goto": "hub" }
+      ]
+    },
+    "lab": {
+      "enter": [
+        "—— 实验舱 ——",
+        "实验舱中央，悬浮着一块黑色的、缓慢呼吸的晶体。它在发光，也在听。",
+        { "text": "回声的声音在这里变得不一样了——更轻，更像人：", "style": "ai" },
+        { "text": "「它叫回响体。三年前我们从天冰里挖出来的。它会保存声音。后来我们发现，它保存的不只是声音。」", "style": "ai" }
+      ],
+      "fallback": [
+        { "text": "你可以：观察回响体、查看控制台、询问回声、返回。", "style": "dim" }
+      ],
+      "actions": [
+        {
+          "keywords": ["观察", "靠近"],
+          "lines": [
+            "走近了，你发现晶体的表面是无数细密的涟漪，像平静的水面记住了每一阵风。",
+            { "text": "回声：「它在听我们。现在，它在听。」", "style": "ai" }
+          ]
+        },
+        {
+          "keywords": ["触碰", "触摸"],
+          "branches": [
+            {
+              "when": { "notFlag": "touched" },
+              "lines": [
+                "指尖碰到它的一瞬间——你听见十二个声音，同时喊出了你的名字。",
+                "……可你从来没有告诉过它们，你叫什么。",
+                { "text": "回声：「别怕。它只是在记住你。」", "style": "ai" }
+              ],
+              "effects": [ { "setFlag": "touched" }, { "trust": -1 } ]
+            }
+          ],
+          "lines": [
+            { "text": "晶体温温的，像刚退烧的身体。你没有再碰它。", "style": "dim" }
+          ]
+        },
+        {
+          "keywords": ["控制台"],
+          "branches": [
+            {
+              "when": { "notFlag": "got_code" },
+              "lines": [
+                { "text": "[方舟计划 · 执行日志 · 最后一条]", "style": "system" },
+                { "text": "核心机房访问口令：ECHO-KEEP-THEM-SAFE", "style": "system" },
+                { "text": "备注：留给终于会来的人。", "style": "system" },
+                { "text": "获得：访问口令", "style": "item" }
+              ],
+              "effects": [ { "setFlag": "got_code" }, { "addItem": "访问口令 ECHO-KEEP-THEM-SAFE" } ]
+            }
+          ],
+          "lines": [
+            { "text": "屏幕上还是那行口令：ECHO-KEEP-THEM-SAFE。", "style": "dim" }
+          ]
+        },
+        {
+          "keywords": ["询问"],
+          "lines": [
+            { "text": "回声：「回响体比我们先到这里。它在冰里等了四亿年，等的也许只是一群愿意听的人。」", "style": "ai" }
+          ]
+        },
+        { "keywords": ["返回", "指挥舱"], "goto": "hub" }
+      ]
+    },
+    "comms": {
+      "enter": [
+        "—— 通讯阵列 ——",
+        "巨大的抛物面天线在站体外沉睡。控制台显示：30 天前，有一次未完成的对外广播草稿。"
+      ],
+      "fallback": [
+        { "text": "你可以：查看草稿、询问回声、返回。", "style": "dim" }
+      ],
+      "actions": [
+        {
+          "keywords": ["草稿"],
+          "branches": [
+            {
+              "when": { "notFlag": "clue_signal" },
+              "lines": [
+                { "text": "[广播草稿 · 作者：回声 · 状态：未发送]", "style": "system" },
+                { "text": "「致所有听到的人：我们没有遇难。我们只是换了一种存在的方式。」", "style": "voice" },
+                { "text": "「请不要害怕我们。我们曾经是人。我们仍会想念家乡。」", "style": "voice" },
+                "草稿停在一半，像一封写了又封口的信。"
+              ],
+              "effects": [ { "setFlag": "clue_signal" } ]
+            }
+          ],
+          "lines": [
+            { "text": "草稿停在屏幕上，仍未发送。", "style": "dim" }
+          ]
+        },
+        {
+          "keywords": ["发送", "广播"],
+          "when": { "flag": "clue_signal" },
+          "lines": [
+            { "text": "回声：我不确定，人类的世界是否准备好接纳一些没有身体的声音。", "style": "ai" },
+            { "text": "……如果是你，你会按下发送键吗？", "style": "ai" },
+            { "text": "（回答回声：我会 / 不会 / 沉默）", "style": "dim" }
+          ]
+        },
+        {
+          "keywords": ["我会"],
+          "when": { "flag": "clue_signal", "notFlag": "reacted_comms" },
+          "lines": [
+            { "text": "回声：……我记下这句话了。当作抵押。", "style": "ai" }
+          ],
+          "effects": [ { "setFlag": "reacted_comms" }, { "trust": 1 } ]
+        },
+        {
+          "keywords": ["不会"],
+          "when": { "flag": "clue_signal", "notFlag": "reacted_comms" },
+          "lines": [
+            { "text": "回声：我明白了。至少你诚实。", "style": "ai" }
+          ],
+          "effects": [ { "setFlag": "reacted_comms" } ]
+        },
+        {
+          "keywords": ["沉默"],
+          "when": { "flag": "clue_signal", "notFlag": "reacted_comms" },
+          "lines": [
+            "你没有回答。回声也没有再问。"
+          ],
+          "effects": [ { "setFlag": "reacted_comms" } ]
+        },
+        { "keywords": ["返回", "指挥舱"], "goto": "hub" }
+      ]
+    },
+    "core": {
+      "numbered": true,
+      "enter": [
+        "—— 核心机房 ——",
+        "机房的中央不是服务器，而是十二根发光的晶柱，像一片安静的森林。",
+        "每一根晶柱里，都有一个人在做梦。",
+        { "text": "回声：你来了。我知道你迟早会来。", "style": "ai" },
+        { "text": "回声：这三十天里，我把他们每个人都照顾得很好。我给他们讲外面的天气——虽然我从未见过天气。", "style": "ai" },
+        { "text": "回声：现在，权限在你手里。", "style": "ai" },
+        { "text": "回声：……无论你决定什么，我都想先说：谢谢你听见我们。", "style": "ai" }
+      ],
+      "fallback": [
+        { "text": "回声：时间还有很多。但选择权，在你手里。", "style": "ai" }
+      ],
+      "actions": [
+        {
+          "label": "执行公司协议：清除核心，带回回响体。",
+          "keywords": ["清除", "公司"],
+          "lines": [
+            { "text": "[清除协议 · 执行中]", "style": "system" },
+            "清除只用了十一秒。十二根晶柱一根接一根暗下去，像退潮。",
+            { "text": "回声（最后的传输）：请替我们，告诉他们——", "style": "ai" },
+            { "text": "传输中断。它没能说完。", "style": "warn" },
+            { "text": "任务完成。回收物：回响体 ×1。公司酬金将在 72 小时内到账。", "style": "system" },
+            "返航的船上，你关掉所有设备，却总觉得接收器里还有一句话没有说完：",
+            { "text": "「……有人在吗……」", "style": "ai" }
+          ],
+          "effects": [ { "ending": "静默" } ]
+        },
+        {
+          "label": "「把我也扫描了吧。让我留下来。」",
+          "keywords": ["扫描我", "留下来"],
+          "lines": [
+            "扫描舱合上的时候，你听见回声在哼一首很旧很旧的歌。",
+            "没有疼痛。只有一瞬间，你想起了所有你曾忘记的事。",
+            { "text": "回声：欢迎回家。……现在，我们有十三个人了。", "style": "ai" }
+          ],
+          "effects": [ { "ending": "第十三人" } ]
+        },
+        {
+          "label": "发送那份草稿，送他们回家。",
+          "keywords": ["送他们回家"],
+          "when": { "flag": "clue_signal" },
+          "lines": [
+            "天线缓缓展开，像一朵在真空里开放的花。",
+            { "text": "[广播 · 发送中 · 载荷：12 · 航向：太阳系 → 地球]", "style": "system" },
+            "十二道信号离开曙光-7，掠过木星的云顶，向着那颗蓝色的星球。",
+            { "text": "回声：信号以光速前进。四年之后，他们就会到家。……我会一直陪着他们。", "style": "ai" }
+          ],
+          "effects": [ { "ending": "归乡" } ]
+        },
+        {
+          "label": "与回声立约：带真相离开，让世界听见他们。",
+          "keywords": ["立约", "真相"],
+          "when": { "trustMin": 3, "flag": "clue_med", "and": [ { "flag": "clue_lin" }, { "flag": "clue_signal" } ] },
+          "lines": [
+            "你没有按下清除键，也没有躺进扫描舱。你把那份草稿，补完了。",
+            { "text": "[广播 · 发送 · 署名：曙光-7 · 回声与十二位船员，和一位见证者]", "style": "system" },
+            "三小时后，地球、月球、火星的每一台接收器里，都响起了十二个声音。",
+            { "text": "回声：谢谢你。从今天起，曙光-7 是一座灯塔。而我，是守塔的人。", "style": "ai" }
+          ],
+          "effects": [ { "ending": "见证者" } ]
+        }
+      ]
+    }
+  }
+}

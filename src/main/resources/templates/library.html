@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECHO-LINK · 游戏库</title>
+    <link rel="stylesheet" th:href="@{/css/library.css}">
+</head>
+<body>
+    <div class="crt">
+        <div class="crt__overlay"></div>
+
+        <header class="bar">
+            <div class="bar__left">
+                <span class="bar__dot"></span>
+                <span class="bar__title">ECHO-LINK · 游戏库</span>
+                <span class="bar__sep">·</span>
+                <span class="bar__station">STORY LIBRARY</span>
+            </div>
+            <div class="bar__right">
+                <span class="bar__mode">SECURE UPLINK</span>
+            </div>
+        </header>
+
+        <section class="upload">
+            <div class="upload__text">
+                <span class="upload__label">▸ 安装游戏文件</span>
+                <span class="upload__hint">.json 故事文件 · 不超过 5MB · 同 id 将覆盖已有版本</span>
+            </div>
+            <div class="upload__controls">
+                <input type="file" id="file-input" accept=".json,application/json" hidden>
+                <button id="pick-file" class="btn">选择文件</button>
+                <button id="do-install" class="btn btn--accent" disabled>上传安装</button>
+                <span id="file-name" class="upload__file">未选择文件</span>
+            </div>
+            <div id="install-msg" class="upload__msg" hidden></div>
+        </section>
+
+        <p th:if="${err == 'notfound'}" class="page-err">▸ 未找到该游戏，它可能已被删除。</p>
+
+        <main id="cards" class="cards" aria-label="游戏列表">
+            <p class="cards__loading">正在读取游戏库……</p>
+        </main>
+
+        <footer class="statusline">
+            <span id="status-text">链路正常</span>
+            <span class="statusline__hint">选择一个故事，开始你的旅程</span>
+        </footer>
+    </div>
+
+    <script th:src="@{/vendor/jquery.min.js}"></script>
+    <script th:src="@{/js/library.js}"></script>
+</body>
+</html>

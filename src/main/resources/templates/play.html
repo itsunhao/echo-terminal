@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${story.title} + ' · ECHO-LINK'">游戏 · ECHO-LINK</title>
+    <link rel="stylesheet" th:href="@{/vendor/xterm.css}">
+    <link rel="stylesheet" th:href="@{/css/terminal.css}">
+</head>
+<body th:attr="data-story-id=${story.id},data-story-title=${story.title}">
+    <div class="crt">
+        <div class="crt__overlay"></div>
+
+        <header class="bar">
+            <div class="bar__left">
+                <span class="bar__dot"></span>
+                <span class="bar__title">ECHO-LINK v3.1.7</span>
+                <span class="bar__sep">·</span>
+                <span class="bar__station" th:text="${story.title}">故事标题</span>
+                <th:block th:if="${!#strings.isEmpty(story.genre)}">
+                    <span class="bar__sep">·</span>
+                    <span class="bar__station" th:text="${story.genre}">类型</span>
+                </th:block>
+            </div>
+            <div class="bar__right">
+                <a class="bar__back" th:href="@{/}">◂ 返回游戏库</a>
+                <span class="bar__sep">·</span>
+                <span class="bar__mode">SECURE UPLINK</span>
+            </div>
+        </header>
+
+        <main id="terminal" class="terminal" aria-label="终端">
+            <!--
+                度量容器：xterm 的 fit 插件按“父元素的整体尺寸 - 自身 padding”计算列/行数，
+                不会扣除 .terminal 自身的 padding/border。这里多套一层无 padding 的容器，
+                让 fit 按真实内容区计算，避免右侧与底部的文字被裁切。
+            -->
+            <div id="terminal-inner" class="terminal__inner"></div>
+        </main>
+
+        <footer class="statusline">
+            <span id="status-text">正在建立上行链路……</span>
+            <span class="statusline__hint">回车确认 · ↑↓ 历史 · Ctrl+L 清屏</span>
+        </footer>
+    </div>
+
+    <script th:src="@{/vendor/jquery.min.js}"></script>
+    <script th:src="@{/vendor/xterm.js}"></script>
+    <script th:src="@{/js/terminal.js}"></script>
+</body>
+</html>

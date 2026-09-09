@@ -118,3 +118,7 @@ echo-terminal/
 - **后端**：Java 21 · Spring Boot 3.3.5 · Thymeleaf
 - **前端**：xterm.js（终端模拟）+ jQuery，原生 CSS
 - **数据**：游戏为 JSON 文件，无数据库；会话状态存于 HttpSession
+
+## 许可证
+
+本项目基于 **MIT License** 开源 —— 可自由使用、修改、分发与商用，仅需保留版权声明。详见 [LICENSE](LICENSE)。
